@@ -45,17 +45,16 @@ class LeapMotionListener(Leap.Listener):
                 data_file.write(buffer_temp)
 
         print('Exited')
-        controller.remove_listener()
 
     def on_frame(self, controller):
         # frame = controller.frame()
 
-        '''print('Frame ID: ' + str(frame.id) +
+        ''' print('Frame ID: ' + str(frame.id) +
               ', Timestamp: ' + str(frame.timestamp) +
               ', # of Hands: ' + str(len(frame.hands)) +
               ', # of Fingers: ' + str(len(frame.fingers)) +
               ', # of Tools: ' + str(len(frame.tools)) +
-              ', # of Gestures: ' + str(len(frame.gestures())))'''
+              ', # of Gestures: ' + str(len(frame.gestures()))) '''
 
         '''for hand in frame.hands:
             handType = 'Left Hand' if hand.is_left else 'Right Hand'
@@ -76,19 +75,24 @@ def main():
     listener.filename = 'frame2.data'
     listener.duration = 3
     controller = Leap.Controller()
-
     controller.add_listener(listener)
     begin_time = time.time()
 
     print('Press enter to quit')
 
-    try:
-        sys.stdin.readline()
-        print 'passss'
-    except KeyboardInterrupt:
-        pass
-    finally:
-        controller.remove_listener(listener)
+    while True:
+        if time.time() - begin_time >= listener.duration:
+            break
+    controller.remove_listener(listener)
+
+    # try:
+    #     sys.stdin.readline()
+    #     # print 'passss'
+    #     # pass
+    # except KeyboardInterrupt:
+    #     pass
+    # finally:
+    #     controller.remove_listener(listener)
 
 
 if __name__ == '__main__':
