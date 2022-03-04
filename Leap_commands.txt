@@ -1,0 +1,11 @@
+https://github.com/robotlearn/pyrobolearn/blob/master/pyrobolearn/tools/interfaces/sensors/install_leapmotion_ubuntu.txt
+
+sudo service leapd stop
+sudo leapd
+LeapControlPanel
+Visualizer
+
+python2 /home/emre/PycharmProjects/LeapMotion/main.py
+
+python2 main.py --filename frame.data --duration 1
+

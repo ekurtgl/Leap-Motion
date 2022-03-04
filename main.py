@@ -5,6 +5,17 @@ import Leap
 import sys
 import ctypes
 import os
+import argparse
+
+# Create the parser
+parser = argparse.ArgumentParser()
+
+# Add an argument
+parser.add_argument('--filename', type=str, required=True)
+parser.add_argument('--duration', type=int, required=True)
+
+# Parse the argument
+args = parser.parse_args()
 
 
 class LeapMotionListener(Leap.Listener):
@@ -72,8 +83,8 @@ class LeapMotionListener(Leap.Listener):
 
 def main():
     listener = LeapMotionListener()
-    listener.filename = 'frame2.data'
-    listener.duration = 3
+    listener.filename = args.filename
+    listener.duration = args.duration
     controller = Leap.Controller()
     controller.add_listener(listener)
     begin_time = time.time()
