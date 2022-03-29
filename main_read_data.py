@@ -119,8 +119,8 @@ with open(fname, "rb") as data_file:
                                                                        [wrist_pos[2], bone_start[2]],
                                         linewidth=3, c='y')
 
-        plt.title('Time:' + str(round((controller.now() - time_now) / 1e3, 1)) + 'Frame: ' +
-                  str(cnt) + ', FPS: ' + str(fps))
+        plt.title('Time:' + str(round((controller.now() - time_now) / 1e6, 1)) + ', Frame: ' +
+                  str(cnt) + ', FPS: ' + str(round(fps)))
         time_now = controller.now()
         plt.draw()
         plt.pause(1e-3)
