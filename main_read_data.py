@@ -17,7 +17,6 @@ with open(fname, "rb") as data_file:
 
     next_block_size = data_file.read(4)
     cnt = 0
-    time_now = controller.now()
 
     while next_block_size:
         size = struct.unpack('i', next_block_size)[0]
@@ -39,6 +38,9 @@ with open(fname, "rb") as data_file:
         #       ', # of Tools: ' + str(len(frame.tools)) +
         #       ', # of Gestures: ' + str(len(frame.gestures())))
 
+        if cnt == 0:
+            time_bias = frame.timestamp
+            
         cnt += 1
         if cnt > 100:
             break
@@ -70,8 +72,8 @@ with open(fname, "rb") as data_file:
                 # hand_z_basis = hand.basis.z_basis
                 # ax.scatter3D(hand_z_basis[0], hand_z_basis[1], hand_z_basis[2], s=20, c='b', marker='o')
                 # print(hand_z_basis)
-                hand_origin = hand.palm_position
-                ax.scatter3D(hand_origin[0], hand_origin[1], hand_origin[2], s=30, c='g', marker='o')
+                # hand_origin = hand.palm_position
+                # ax.scatter3D(hand_origin[0], hand_origin[1], hand_origin[2], s=30, c='g', marker='o')
                 # print(hand_origin)
 
                 arm = hand.arm
@@ -119,9 +121,8 @@ with open(fname, "rb") as data_file:
                                                                        [wrist_pos[2], bone_start[2]],
                                         linewidth=3, c='y')
 
-        plt.title('Time:' + str(round((controller.now() - time_now) / 1e6, 1)) + ', Frame: ' +
+        plt.title('Time:' + str(round((frame.timestamp - time_bias) / 1e6, 1)) + ', Frame: ' +
                   str(cnt) + ', FPS: ' + str(round(fps)))
-        time_now = controller.now()
         plt.draw()
         plt.pause(1e-3)
         ax.clear()
