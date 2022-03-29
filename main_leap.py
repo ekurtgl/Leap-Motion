@@ -6,6 +6,7 @@ import sys
 import ctypes
 import os
 import argparse
+import time
 
 # Create the parser
 parser = argparse.ArgumentParser()
@@ -56,12 +57,13 @@ class LeapMotionListener(Leap.Listener):
 
                 data_file.write(struct.pack('i', serialized_length))
                 data_file.write(buffer_temp)
-
+        time.sleep(1)  # to make sure enough time for saving the file
         print('Exited')
 
     def on_frame(self, controller):
-        # print('Frame: ' + str(self.cnt))
-        # self.cnt += 1
+        if self.cnt % 50 == 0:
+            print('Frame: ' + str(self.cnt))
+        self.cnt += 1
         # frame = controller.frame()
         self.frames.append(controller.frame())
 
@@ -88,9 +90,15 @@ def main():
     listener.duration = args.duration
     controller = Leap.Controller()
     controller.add_listener(listener)
+
+    # wants data even when it is in the background
+    controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
+    controller.set_policy(Leap.Controller.POLICY_IMAGES)
+    # controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD) # when head mounted
+
     begin_time = time.time()
 
-    print('Press enter to quit')
+    # print('Press enter to quit')
 
     while True:
         if time.time() - begin_time >= listener.duration:
