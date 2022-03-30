@@ -61,8 +61,8 @@ class LeapMotionListener(Leap.Listener):
         print('Exited')
 
     def on_frame(self, controller):
-        if self.cnt % 50 == 0:
-            print('Frame: ' + str(self.cnt))
+        if self.cnt % 10 == 0:
+            print('Frame: ' + str(self.cnt) + ', # of Hands: ' + str(len(controller.frame().hands)))
         self.cnt += 1
         # frame = controller.frame()
         self.frames.append(controller.frame())
